@@ -32,7 +32,7 @@ for part in ${partitions}; do
 	else
 		partclonecmd="partclone.dd"
 	fi
-	mksquashfs /tmp "/mnt/${imgname}/$( printf ${part} | cut -d'/' -f3 ).img" -p "image.img f 444 root root /root/${partclonecmd} -q -s ${part} -O /dev/stdout | dd bs=4M"
+	mksquashfs /tmp "/mnt/${imgname}/$( printf ${part} | cut -d'/' -f3 ).img" -comp lz4 -p "image.img f 444 root root /root/${partclonecmd} -q -s ${part} -O /dev/stdout | dd bs=4M"
 	cat torrent.info | ./partclone_create_torrent.py
 	mv /root/a.torrent "/mnt/${imgname}/$( printf ${part} | cut -d'/' -f3 ).torrent"
 done
